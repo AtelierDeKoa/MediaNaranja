@@ -1,0 +1,469 @@
+:: StoryTitle
+Media Naranja
+
+
+:: StoryData
+{
+  "ifid": "3E3FA0C6-1337-40E8-9D56-612C18E9218E",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "Media Naranja",
+  "zoom": 1
+}
+
+
+:: \ Genero {"position":"700,625","size":"100,100"}
+¿Con qué genero te identificas?
+[[Hombre]]
+[[Mujer]]
+[[No binarie]]
+[[Genero fluido]]
+[[Otro]]
+
+
+:: \ Introvert {"position":"775,1775","size":"100,100"}
+(set:$mbti to "introvertida")\
+Eres una persona más $mbti.
+
+[[Continuar->Tu perfil]]
+
+
+:: \ Perros y gatos {"position":"850,1525","size":"100,100"}
+(set:$animal to "perro y gato")\
+Te pega mucho elegir $animal.
+
+[[Continuar->Intr o Extr]]
+
+
+:: \ Persona2 {"position":"700,2150","size":"100,100"}
+(if:$lookFor is "hombres")[(display:"H2")]
+(else-if:$lookFor is "mujeres")[(display:"M2")]
+(set:$p2 to (random: 1,2))
+(else-if:$lookFor is "hombres y mujeres" and $p2 is 1)[(display:"H2")](else:)[(display:"M2")] 
+
+
+:: \ Pronombres {"position":"700,900","size":"100,100"}
+¿Qué pronombre prefieres?
+[[Él]]
+[[Ella]]
+[[Elle]]
+
+
+:: Adios {"position":"925,2625","size":"100,100"}
+Siento que te marches, esperamos que la próxima vez encuentres a tu Media Naranja aquí. ¡Hasta Pronto!
+
+
+:: Afinidad Rechazo {"position":"775,2775","size":"100,100"}
+(align:"=><=")[(text-size:1.5)[Vuestra afinidad es (if:$afinidad<25)[baja](else-if:$afinidad>25 and $afinidad<75)[media](else:)[alta]: $afinidad%.
+Compatibilidad: $relacion.]]
+
+¿Quieres seguir buscando?
+[[Si->Persona1]]
+[[No->Adios]]
+
+
+:: Busqueda {"position":"700,1150","size":"100,100"}
+¿Qué buscas?
+
+[[Hombres]]
+[[Mujeres]]
+[[Ambos->Hombres y Mujeres]]
+
+
+:: Cafeteria {"position":"700,2650","size":"100,100"}
+(align:"=><=")[(text-size:2)[(text-style:"underline")[New Wave Coffee]]]
+<Img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/Cafeteria.jpg" style='height: 70%; width: 70%; object-fit: contain; display: block; margin-left: auto; margin-right: auto' alt="Cafeteria New Wave Media Naranja">
+
+(align: "==>")[(if:$pronoun is "el")[Encantado](else-if:$pronoun is "ella")[Encantada](else:)[Encantade] de conocerte, $persona.]
+(after:1s)[Igualmente, $name.]
+
+(after:1s)[Tu foto de perfil de $animal es muy mona. (cond:$hablar is 1,[Yo tengo un gato, se llama Ronson, por el productor musical. ¿Lo conoces?],$hablar is 3,[Yo tengo una gata, se llama Tina, por el juego Borderlans. ¿Lo conoces?],[Yo tengo un perro que se llama Marín, por la jugadora de bádminton. ¿La conoces?])]
+
+(set:$conv2 to "")\
+(after:1.5s)[(align:"==>")[[|1>[(if:$conv2 is "")[(link:"Si")[(set:$conv2 to "si")(rerun:?1)(rerun:?2)]
+(link:"No")[(set:$conv2 to "no")(rerun:?1)(rerun:?2)]](else-if:$conv2 is "si")[¡Claro! (set:$afinidad to it + 15)](else-if:$conv2 is "no")[No, lo siento... (set:$afinidad to it - 5)]]]]]
+
+|2>[(after:1s)[(if:$conv2 is "si")[Genial, tenemos gustos en común. ¿Te apetece quedar para comer mañana en (text-style:"italic")[Elaborado] a las 2?](else-if:$conv2 is "no")[Bueno, no pasa nada... Aún así, ¿Te apetece quedar para comer en (text-style:"italic")[Elaborado] a las 2?]]
+
+(after:2s)[(align:"==>")[(if:$conv2 is not "")[[[¡Claro, me encantaría!->Comida]]
+[[Creo que no, lo siento...->Afinidad Rechazo]]]]]]
+
+<!-- Establecemos la relación entre las dos personas -->
+(set:$relacion to "Amigos")
+
+<!-- Cambiar afinidad según animal y extr/intr-->
+(if:$hablar is 2 and $animal is not "gato")[(set:$afinidad to it + 25)]
+(else-if:$hablar is not 2 and $animal is not "perro")[(set:$afinidad to it + 25)]
+(else:)[(set:$afinidad to it + 15)]
+
+
+:: Comida {"position":"625,2775","size":"100,100"}
+(align:"=><=")[(text-size:2)[(text-style:"underline")[Elaborado]]]
+<Img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/Comida.jpg" style='height: 70%; width: 70%; object-fit: contain; display: block; margin-left: auto; margin-right: auto' alt="Cafeteria New Wave Media Naranja">
+
+¡Hola, $name!
+
+(after:1s)[(align:"==>")[¿Cómo estás, $persona?]]
+
+(after:1.5s)[Genial, gracias. ¿Y tú?]
+
+(after:2s)[(align:"==>")[Muy bien :)]]
+
+(after:2.5s)[Ya que nos estamos conociendo más quería preguntarte qué esperas de esta relación.]
+
+(set:$convCom1 to "")\
+(after:3s)[(align:"==>")[[|1>[(if:$convCom1 is "")[(link:"Amistad")[(set:$convCom1 to "Amistad")(rerun:?1)(rerun:?2)(rerun:?3)]
+(link:"Relación estable")[(set:$convCom1 to "Estable")(rerun:?1)(rerun:?2)(rerun:?3)]](else-if:$convCom1 is "Amistad")[Pues espero una amistad o lo que surja... ](else-if:$convCom1 is "Estable")[La verdad es que busco una relación estable]]]]]
+
+|2>[(if:$convCom1 is "Amistad" and $hablar is 3)[Genial, yo busco lo mismo ;)(set:$afinidad to it + 25)](else-if:$convCom1 is "Estable" and $hablar is 1)[¡Que bien! Yo busco lo mismo...(set:$afinidad to it + 25)](else-if:$convCom1 is "Amistad" and $hablar is 2)[Entonces creo que no buscamos los mismo, lo siento...(set:$afinidad to it - 25)](else-if:$convCom1 is not "")[Me adapto a lo que sea :)]]
+
+|3>[(align:"==>")[(if:$convCom1 is not "")[[[Seguir quedando->Match]]
+[[Dejar la cosa aquí->Afinidad Rechazo]] ]]]
+
+
+:: Conversacion1 {"position":"700,2525","size":"100,100"}
+(text-size:1.5)[(align:"=><=")[Chat con $persona]]
+(align: "==>")[Hola, $persona]
+[(after:1s)[Hola, $name :)]]
+
+(after:1.5s)[\
+	(if:$mbti is "extrovertida")[\
+    	(align: "==>")[\
+        	(link:"Quedar en persona")[¿Te gustaría quedar para tomar un café por el centro y vernos en persona?(set:$conv1 to "cafe")]\
+        ]\
+    ] (else:) [\
+    	(align: "==>")[\
+        	(link:"Preguntar que tal")[¿Qué tal estás?(set:$conv1 to "queTal")]\
+        ]\
+    ]\
+]
+
+(live:1s)[\
+	(if:$conv1 is "cafe" and $hablar is 2)[(stop:)[Paso por la cafetería (text-style:"italic")[New wave Coffee] cuando salgo a correr. ¿Te parece bien a las 5?(set:$conv2 to "cafe5")]]\
+    (else-if:$conv1 is "cafe")[(stop:)[Genial, ¿te parece bien a las 5 en (text-style:"italic")[New wave Coffee]?(set:$conv2 to "cafe5")]]\
+    (else-if:$conv1 is "queTal" and $hablar is 2)[(stop:)[Muy bien, ¿te apetece quedar para tomar un café en (text-style:"italic")[New wave Coffee] sobre las 5?(set:$conv2 to "cafe5")]]\
+    (else-if:$conv1 is "queTal")[(stop:)Muy bien, me encanta tu foto de perfil :)(set:$conv2 to "fotoPerfil")]\
+]
+
+(live:1s)[\
+	(if:$conv2 is "cafe5")[ (stop:)(align:"==>")[[Genial, allí nos vemos :)->Cafeteria]] ]\
+    (else-if:$conv2 is "fotoPerfil")[(stop:)(align:"==>")[(link:"Quedar en persona")[¡Gracias! ¿Te gustaría quedar para tomar un café por el centro y vernos en persona? A las 5 en (text-style:"italic")[New wave Coffee], por ejemplo :) (set:$conv3 to "cafe5")]]]\
+]
+
+(live:1s)[(if:$conv3 is "cafe5")[ (stop:)[[Genial, allí nos vemos :)->Cafeteria]] ]]
+
+<!-- Establecemos la relación entre las dos personas -->
+(set:$relacion to "Conocidos")
+
+<!-- Definimos afinidad en función de la compatibilidad extrovertido/introvertido -->
+(if:$hablar is 2 and $mbti is "introvertida")[(set:$afinidad to 35)]
+(else:)[(set:$afinidad to 50)]
+(set:$conv1 to "")
+
+
+:: Crear perfil {"position":"700,375","size":"100,100"}
+(set: $name to (prompt: [Tu nombre:], "", "", "Aceptar"))\
+(print:"Genial, hola $name.")
+
+[[Continuar->Edad]]
+
+
+:: Edad {"position":"700,500","size":"100,100"}
+(set: $age to (prompt: [Tu edad:], "", "", "Aceptar"))\
+(print:"La edad es tan solo un número.")
+
+[[Continuar-> Genero]]
+
+
+:: Ella {"position":"700,1025","size":"100,100"}
+(set: $pronoun to "ella")\
+Has escogido (text-style:"italic")[$pronoun] como pronombre.
+
+[[Continuar->Busqueda]]
+
+
+:: Elle {"position":"850,1025","size":"100,100"}
+(set: $pronoun to "elle")\
+Has escogido (text-style:"italic")[$pronoun] como pronombre.
+
+[[Continuar->Busqueda]]
+
+
+:: Extrovert {"position":"625,1775","size":"100,100"}
+(set:$mbti to "extrovertida")\
+Eres una persona más $mbti.
+
+[[Continuar->Tu perfil]]
+
+
+:: Gatos {"position":"700,1525","size":"100,100"}
+(set:$animal to "gato")\
+Te pega mucho elegir $animal.
+
+[[Continuar->Intr o Extr]]
+
+
+:: Genero fluido {"position":"850,750","size":"100,100"}
+(set: $gender to "gf")\
+Así que eres $gender, genial.
+
+[[Continuar-> Pronombres]]
+
+
+:: H1 {"position":"550,2150","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/H1.jpg" style='height: 50%; width: 50%; object-fit: contain; display: block; margin-left: auto; margin-right: auto'>
+(text-size:2)[Manolo, 26]
+Soy téctico de sonido, siempre estoy escuchando podcast. Me gustan los planes tranquilos.
+
+[[Hablar->Hablar H1]]
+[[Siguiente-> Persona2]]
+
+
+:: H2 {"position":"550,2275","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/H2.jpg" style='height: 50%; width: 50%; object-fit: contain; display: block; margin-left: auto; margin-right: auto'>
+(text-size:2)[Luis, 32]
+Soy arquitecto. Mi plan favorito es un viaje de fin de semana. Busco a alguien con quien ir al gym y compartir estilo de vida.
+
+[[Hablar->Hablar H2]]    
+[[Siguiente->Persona3]]
+
+
+:: H3 {"position":"550,2400","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/H3.jpg" style='height: 50%; width: 50%; object-fit: contain; display: block; margin-left: auto; margin-right: auto'>
+(text-size:2)[Roberto, 37]
+Soy desarrollador de videojuegos. Mi plan favorito es peli (o videojuegos), pizza y palomitas. 
+
+[[Hablar->Hablar H3]]    
+[[Siguiente->Persona4]]
+
+
+:: Hablar H1 {"position":"400,2150","size":"100,100"}
+(set:$hablar to 1)
+(set:$persona to "Manolo")
+
+¿Quieres hablar a $persona?
+
+[[Si->Conversacion1]]
+[[No->Persona1]]
+
+
+:: Hablar H2 {"position":"400,2275","size":"100,100"}
+(set:$hablar to 2)
+(set:$persona to "Luis")
+
+¿Quieres hablar a $persona?
+
+[[Si->Conversacion1]]
+[[No->Persona1]]
+
+
+:: Hablar H3 {"position":"400,2400","size":"100,100"}
+(set:$hablar to 3)
+(set:$persona to "Roberto")
+
+¿Quieres hablar a $persona?
+
+[[Si->Conversacion1]]
+[[No->Persona1]]
+
+
+:: Hablar M1 {"position":"1000,2150","size":"100,100"}
+(set:$hablar to 1)
+(set:$persona to "Laura")
+
+¿Quieres hablar a $persona?
+
+[[Si->Conversacion1]]
+[[No->Persona1]]
+
+
+:: Hablar M2 {"position":"1000,2275","size":"100,100"}
+(set:$hablar to 2)
+(set:$persona to "Cristina")
+
+¿Quieres hablar a $persona?
+
+[[Si->Conversacion1]]
+[[No->Persona1]]
+
+
+:: Hablar M3 {"position":"1000,2400","size":"100,100"}
+(set:$hablar to 3)
+(set:$persona to "Espe")
+
+¿Quieres hablar a $persona?
+
+[[Si->Conversacion1]]
+[[No->Persona1]]
+
+
+:: Hombre {"position":"400,750","size":"100,100"}
+(set: $gender to "hombre")\
+Así que eres $gender, genial.
+
+[[Continuar-> Pronombres]]
+
+
+:: Hombres {"position":"550,1275","size":"100,100"}
+(set: $lookFor to "hombres")\
+Has elegido $lookFor.
+
+[[Continuar->Perros o gatos]]
+
+
+:: Hombres y Mujeres {"position":"850,1275","size":"100,100"}
+(set: $lookFor to "hombres y mujeres")\
+Has elegido $lookFor.
+
+[[Continuar->Perros o gatos]]
+
+
+:: Intr o Extr {"position":"700,1650","size":"100,100"}
+¿Te consideras una persona aventurera o prefieres la zona de confort?
+
+[[Siempre busco nuevas aventuras->Extrovert]]
+[[Prefiero quedarme en mi zona de confort-> Introvert]]
+
+
+:: M1 {"position":"850,2150","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/M1.jpg" style='height: 50%; width: 50%; object-fit: contain; display: block; margin-left: auto; margin-right: auto'>
+(text-size:2)[Laura, 27]
+Soy téctico de sonido, siempre estoy escuchando podcast. Me gustan los planes tranquilos.
+
+[[Hablar->Hablar M1]]    
+[[Siguiente-> Persona2]]
+
+
+:: M2 {"position":"850,2275","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/M2.jpg" style='height: 50%; width: 50%; object-fit: contain; display: block; margin-left: auto; margin-right: auto'>
+(text-size:2)[Cristina, 31]
+Soy arquitecta. Mi plan favorito es un viaje de fin de semana. Busco a alguien con quien ir al gym y compartir estilo de vida.
+
+[[Hablar->Hablar M2]]    
+[[Siguiente->Persona3]]
+
+
+:: M3 {"position":"850,2400","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/M3.jpg" style='height: 50%; width: 50%; object-fit: contain; display: block; margin-left: auto; margin-right: auto'>
+(text-size:2)[Espe, 28]
+Soy desarrolladora de videojuegos. Mi plan favorito es peli (o videojuegos), pizza y palomitas. 
+[[Hablar->Hablar M3]]    
+[[Siguiente->Persona4]]
+
+
+:: Match {"position":"475,2775","size":"100,100"}
+(set:$relacion to "Amor")\
+(align:"=><=")[(text-size:1.5)[Vuestra afinidad es (if:$afinidad<25)[baja](else-if:$afinidad>25 and $afinidad<75)[media](else:)[alta].]
+
+Wow, formais una naranja preciosa. Desde (text-style:"bold","underline")[Media Naranja], esperamos que seais muy felices.]
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/MediaNaranjaBanner.png" style='height: 40%; width: 40%; object-fit: contain; display: block; margin-left: auto; margin-right: auto' alt="Banner Media Naranja">
+
+(align:"==>")[Creado por Ana Martín Prieto :)]
+
+
+:: Media Naranja {"position":"700,250","size":"100,100"}
+<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/MediaNaranjaBanner.png" style='height: 70%; width: 70%; object-fit: contain; display: block; margin-left: auto; margin-right: auto' alt="Banner Media Naranja">
+Te damos la bienvenida a (text-style:"bold","underline")[Media Naranja], la mejor app para conocer gente nueva.
+
+[[Crear perfil]]
+
+
+:: Mujer {"position":"550,750","size":"100,100"}
+(set: $gender to "mujer")\
+Así que eres $gender, genial.
+
+[[Continuar-> Pronombres]]
+
+
+:: Mujeres {"position":"700,1275","size":"100,100"}
+(set: $lookFor to "mujeres")\
+Has elegido $lookFor.
+
+[[Continuar->Perros o gatos]]
+
+
+:: No binarie {"position":"700,750","size":"100,100"}
+(set: $gender to "nb")\
+Así que eres $gender, genial.
+
+[[Continuar-> Pronombres]]
+
+
+:: Otro {"position":"1000,750","size":"100,100"}
+(set: $gender to "otro")\
+Sentimos no disponer de más tipos de géneros y que hayas marcado (text-style:"italic")[otro]. Estamos encantados de tenerte aquí :)
+
+[[Continuar-> Pronombres]]
+
+
+:: Perros {"position":"550,1525","size":"100,100"}
+(set:$animal to "perro")\
+Te pega mucho elegir $animal.
+
+[[Continuar->Intr o Extr]]
+
+
+:: Perros o gatos {"position":"700,1400","size":"100,100"}
+¿Eres más de perros o de gatos?
+
+[[Perros]]
+[[Gatos]]
+[[Ambos-> Perros y gatos]]
+
+
+:: Persona1 {"position":"700,2025","size":"100,100"}
+(if:$lookFor is "hombres")[(display:"H1")]\
+(else-if:$lookFor is "mujeres")[(display:"M1")]\
+(set:$p1 to (random: 1,2))\
+(else-if:$lookFor is "hombres y mujeres" and $p1 is 1)[(display:"H1")]\
+(else:)[(display:"M1")]\
+
+<!-- Establecemos la relación entre las dos personas -->
+(set:$relacion to "Desconocidos")
+
+
+:: Persona3 {"position":"700,2275","size":"100,100"}
+(if:$lookFor is "hombres")[(display:"H3")]
+(else-if:$lookFor is "mujeres")[(display:"M3")]
+(set:$p3 to (random: 1,2))
+(else-if:$lookFor is "hombres y mujeres" and $p3 is 1)[(display:"H3")](else:)[(display:"M3")] 
+
+
+:: Persona4 {"position":"700,2400","size":"100,100"}
+(if:$lookFor is "hombres")[(print:"No quedan más personas :(")]
+¿Quieres volver a la primera?
+[[Si->Persona1]] [[No->Adios]]
+
+
+:: Tu perfil {"position":"700,1900","size":"100,100"}
+(text-style:"underline")[(text-size:2)[Tu perfil]]
+(if: $animal is "perro")[<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/Perro.png" style='height: 20%; width: 20%; object-fit: contain; display: block; margin-left: 0%; margin-right: auto'>]
+(else-if: $animal is "gato")[<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/Gato.png" style='height: 20%; width: 20%; object-fit: contain; display: block; margin-left: 0%; margin-right: auto'>]
+(else:)[<img src="https://raw.githubusercontent.com/AtelierDeKoa/MediaNaranja/refs/heads/master/Img/GatoPerro.png" style='height: 20%; width: 20%; object-fit: contain; display: block; margin-left: 0%; margin-right: auto'>]
+(text-style:"bold")[Nombre:] $name
+(text-style:"bold")[Edad:] $age
+(text-style:"bold")[Género:] $gender
+(text-style:"bold")[Pronombre:] $pronoun
+(text-style:"bold")[Estás buscando:] $lookFor
+(text-style:"bold")[Eres una persona:] $mbti
+
+[[Empezar a buscar->Persona1]]
+
+
+:: Él {"position":"550,1025","size":"100,100"}
+(set: $pronoun to "el")\
+Has escogido (text-style:"italic")[$pronoun] como pronombre.
+
+[[Continuar->Busqueda]]
+
+
+:: StoryStylesheet [stylesheet]
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 5%;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size:5;
+}
